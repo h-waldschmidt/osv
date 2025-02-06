@@ -7,7 +7,7 @@
 SRC = $(shell readlink -f ../..)
 
 module:
-	$(SRC)/scripts/manifest_from_host.sh -l libssl.so.1.1 > usr.manifest
+	$(SRC)/scripts/manifest_from_host.sh -l libssl.so.3 > usr.manifest
 	# From krb5-libs
 	$(SRC)/scripts/manifest_from_host.sh -l libgssapi_krb5.so.2 >> usr.manifest
 	# From libselinux
