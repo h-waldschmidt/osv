@@ -239,8 +239,8 @@ class Debian(object):
                 'maven',
                 'openssl',
                 'p11-kit',
-                'python-dpkt',
-                'python-requests',
+                'python3-dpkt',
+                'python3-requests',
                 'qemu-system-%s' % qemu_extention,
                 'qemu-utils',
                 'tcpdump',
@@ -253,11 +253,11 @@ class Debian(object):
     ec2_post_install = None
 
     class debian(object):
-        packages = ['lib32stdc++-4.9-dev', 'openjdk-7-jdk',]
+        packages = ['lib32stdc++-11-dev', 'openjdk-17-jdk',]
         ec2_packages = []
         test_packages = []
         ec2_post_install = None
-        version = 'jessie/sid'
+        version = '12'
 
     class Debian_9_3(object):
         packages = ['lib32stdc++-6-dev', 'openjdk-8-jdk',]
@@ -265,8 +265,15 @@ class Debian(object):
         test_packages = []
         ec2_post_install = None
         version = '9.3'
+    class Debian_12(object):
+        packages = ['lib32stdc++-6-dev', 'openjdk-8-jdk',]
+        ec2_packages = []
+        test_packages = []
+        ec2_post_install = None
+        version = '12'
 
-    versions = [debian, Debian_9_3]
+
+    versions = [debian, Debian_9_3, Debian_12]
 
 class Ubuntu(object):
     name = 'Ubuntu'
@@ -481,10 +488,14 @@ parser.add_argument("-t", "--test", action="store_true",
 cmdargs = parser.parse_args()
 
 (name, version) = linux_distribution()
+name = "debian"
 
 for distro in distros:
     if type(distro.name) == type([]):
         dname = [n for n in distro.name if name.startswith(n)]
+        print(name)
+        print(version)
+        print(dname)
         if len(dname):
             distro.name = dname[0]
         else:
@@ -492,6 +503,7 @@ for distro in distros:
 
     if name.startswith(distro.name):
         for dver in distro.versions:
+            print("dver: " + dver.version)
             if dver.version == version or version.startswith(dver.version+'.'):
                 if hasattr(distro, 'pre_install'):
                     subprocess.check_call(distro.pre_install, shell=True)
