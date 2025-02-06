@@ -975,28 +975,6 @@ void pthread_exit(void *retval)
     t->_thread->exit();
 }
 
-// Following 4 functions provide minimal implementation
-// that ONLY covers default Linux SCHED_OTHER policy
-int sched_get_priority_min(int policy)
-{
-    switch (policy) {
-        case SCHED_OTHER:
-            return 0;
-        default:
-            return EINVAL;
-    }
-}
-
-int sched_get_priority_max(int policy)
-{
-    switch (policy) {
-        case SCHED_OTHER:
-            return 0;
-        default:
-            return EINVAL;
-    }
-}
-
 int pthread_setschedparam(pthread_t thread, int policy,
         const struct sched_param *param)
 {

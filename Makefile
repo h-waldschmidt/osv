@@ -2002,6 +2002,8 @@ libc += mallopt.o
 
 libc += linux/makedev.o
 
+libc += sched.o
+
 musl += fenv/fegetexceptflag.o
 musl += fenv/feholdexcept.o
 musl += fenv/fesetexceptflag.o

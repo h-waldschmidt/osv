@@ -534,6 +534,8 @@ public:
     inline void wake_with_from_mutex(Action action);
     template <class Rep, class Period>
     static void sleep(std::chrono::duration<Rep, Period> duration);
+    template <class Clock, class Duration>
+    static void sleep_until(std::chrono::time_point<Clock, Duration> time_point);
     /**
      * Let the other thread on the current CPU run if there is any.
      *
@@ -1446,6 +1448,14 @@ void thread::sleep(std::chrono::duration<Rep, Period> duration)
     timer t(*current());
     t.set(duration);
     sleep_impl(t);
+}
+
+template <class Clock, class Duration>
+void thread::sleep_until(std::chrono::time_point<Clock, Duration> time_point)
+{
+    timer t(*current());
+    t.set(time_point);
+    wait_until([&] { return t.expired(); });
 }
 
 template <class Action>
